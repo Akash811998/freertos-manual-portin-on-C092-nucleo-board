@@ -1,0 +1,7 @@
+{
+  "board": "NUCLEO-C092RC",
+  "device": "STM32C092RCT6",
+  "core": "Cortex-M0+",
+  "order": 0,
+  "toolchain": "GCC"
+}
