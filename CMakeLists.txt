@@ -44,11 +44,19 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
+    freertos/tasks.c
+    freertos/portable/MemMang/heap_4.c
+    Core/Src/portFunctions.c
+    freertos/portable/GCC/ARM_CM0/port.c
+    freertos/list.c
+    freertos/portable/GCC/ARM_CM0/portasm.c
     # Add user sources here
 )
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
+     freertos/include
+     freertos/portable/GCC/ARM_CM0
 # Add user defined include paths
 )
 
