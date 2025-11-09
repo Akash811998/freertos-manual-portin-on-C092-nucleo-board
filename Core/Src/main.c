@@ -19,10 +19,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "FreeRTOS.h"
+#include "stm32c092xx.h"
 #include "task.h"
 /* USER CODE END Includes */
 
@@ -38,7 +38,23 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
+static void vTask1(void *pvParameters)
+{
+  volatile int a=0;
+  while(1)
+  {
+    a++;
+  }
+}
 
+static void vTask2(void *pvParameters)
+{
+  volatile int b=0;
+  while(1)
+  {
+    b++;
+  }
+}
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -114,6 +130,14 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  BaseType_t xReturn;
+  xReturn=xTaskCreate(vTask1,"t1",configMINIMAL_STACK_SIZE, NULL, 1, NULL);
+  xReturn=xTaskCreate(vTask2,"t2",configMINIMAL_STACK_SIZE, NULL, 1, NULL);
+
+    
+//   NVIC_SetPriority(SVCall_IRQn, 0);
+//    NVIC_SetPriority(SysTick_IRQn, 3);
+//  NVIC_SetPriority(PendSV_IRQn, 5);
   while (1)
   {
     vTaskStartScheduler();
@@ -187,6 +211,28 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM1 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM1)
+  {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.

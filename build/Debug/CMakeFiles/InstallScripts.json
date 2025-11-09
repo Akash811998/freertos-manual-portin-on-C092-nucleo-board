@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/freertos_integration_c0/freertos_C092/build/Debug/cmake_install.cmake",
+		"C:/freertos_integration_c0/freertos_C092/build/Debug/cmake/stm32cubemx/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

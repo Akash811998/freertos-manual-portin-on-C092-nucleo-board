@@ -33,3 +33,25 @@ In FreeRTOS, a tick hook function is a user-defined function, named vApplication
 
 -vPortEnterCritical and vPortExitCritical are functions which are atomic operations which tells which tells only that current process can access that memory area and nothing else. The freertos kernel expects the user to program those functions. These functions are present in the port.c function of your specific ARM architecture H/W.
 The default freertos implementation shows that when the critical part is entered the interrupts are disabled and then the critical section is executed. You are free to write your own code if needed
+
+
+-Have commented out the systick, svc and the pendsv handlers from the HAL generated code as these are used in portasm.c
+
+
+- A function which is to be made into a task should have the footprint of this type. It should return a void and should have a void pointer argument
+    static void vTask1(void *pvParameters)
+
+
+- configMINIMAL_STACK_SIZE is equal to 256 words which is nothing but 256*4 1KB, But totally there will be an extra 8 bytes allocated which might be used by the TCB to manage the task. so totally the size of the stack will be size_of_task +  8 bytes
+
+
+
+DEBUG:
+1. Make sure to have a separate timer for the FReertos and HAL. Leave the systick to freertos and for HAL operations, use something like a TIM
+
+2. Make sure that the priority order of the execeptions are:(They are in the higher to lower priority order)
+    SVC -> SYSTICK -> PENDSV
+
+3. Make sure that the BASEPRI value is zero and if it is non zero(in the range of values of 1-5) then it might end up blocking svc or systick handlers
+
+4. If the processor has group priority like M3 and above, then make sure that they have there is bits allocated for preemption priority and not all bits are allocated for subpriority

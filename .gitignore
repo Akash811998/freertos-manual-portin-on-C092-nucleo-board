@@ -1,3 +1,6 @@
-build
+## Only ignore the contents of the Debug folder. This keeps all CMake-generated
+## files (CMakeFiles, CMakeCache.txt, compile_commands.json, etc.) tracked.
+Debug/*
+
+## STM32CubeMX scratch file
 mx.scratch
-!.settings
